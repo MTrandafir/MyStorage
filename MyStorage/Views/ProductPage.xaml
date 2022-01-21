@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:local="clr-namespace:MyStorage.ViewModels"
+             xmlns:model="clr-namespace:MyStorage.Models"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyStorage.Views.ProductPage">
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddProductCommand}"/>
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <RefreshView x:DataType="local:ProductViewModel"
+                         Command="{Binding LoadProductCommand}"
+                         IsRefreshing="{Binding IsBusy,Mode=OneWay}">
+                <CollectionView
+                    ItemsSource="{Binding ProductInfos}"
+                    SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <StackLayout>
+                            <Label Text="No Data Found!" HorizontalOptions="Center" FontAttributes="Italic" FontSize="Large" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout x:DataType="model:ProductInfo">
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Delete" BackgroundColor="Red"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type local:ProductViewModel}},
+                                                Path=ProductTappedDelete}" CommandParameter="{Binding .}"/>
+                                            <SwipeItem IsDestructive="True" Text="Close" BackgroundColor="Green"/>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                
+                                <Grid Padding="5">
+                                    <Frame CornerRadius="10" HasShadow="True">
+                                        <StackLayout Orientation="Horizontal" >
+                                            <Image Grid.RowSpan="2" Source="{Binding ImageUrl}" Aspect="AspectFill" HeightRequest="60" WidthRequest="60"></Image>
+                                            <StackLayout>
+                                                <Label Grid.Column="1" Text="{Binding ProductName}" FontAttributes="Bold"></Label>
+                                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Description}" VerticalOptions="End"></Label>
+                                            </StackLayout>
+                                            <StackLayout VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+                                                <Image Source="edit.png" Grid.Column="3" WidthRequest="30" HeightRequest="30" VerticalOptions="End">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1" 
+                                                           Command="{Binding Source={RelativeSource AncestorType={x:Type local:ProductViewModel}},
+                                                           Path=ProductTappedEdit}" CommandParameter="{Binding .}"/>
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                            </Grid>
+                            </SwipeView>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Product List" FontSize="Large" TextColor="Gray" HorizontalOptions="Center" />
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.Footer>
+                    <StackLayout>
+                        <Label Text="Load more..." FontSize="Large" TextColor="Gray" HorizontalOptions="Center" />
+                        <Button Text="Clear"
+                               Command="{Binding ClearProductCommand}"
+                               FontSize="Large" TextColor="White" HorizontalOptions="Center" />
+                        </StackLayout>
+                    </CollectionView.Footer>
+                </CollectionView>
+            </RefreshView>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

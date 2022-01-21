@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MyStorage.ViewModels"
+             x:Class="MyStorage.Views.AddProductPage">
+    
+    <ContentPage.BindingContext>
+        <local:AddProductViewModel/>
+    </ContentPage.BindingContext>         
+    
+    <ContentPage.Content>
+        <StackLayout Spacing="5" Padding="15">
+            <Label Text="ID" FontSize="Medium" IsEnabled="false" />
+            <Entry Text="{Binding ProductInfo.ProductId, Mode=TwoWay}" FontSize="Medium" IsEnabled="false" />
+            <Label Text="Text" FontSize="Medium" />
+            <Entry Text="{Binding ProductInfo.ProductName, Mode=TwoWay}" FontSize="Medium" />
+            <Label Text="Description" FontSize="Medium" />
+            <Editor Text="{Binding ProductInfo.Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
+            <Label Text="ImageUrl" FontSize="Medium" />
+            <Editor Text="{Binding ProductInfo.ImageUrl, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
+
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
